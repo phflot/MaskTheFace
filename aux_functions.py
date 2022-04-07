@@ -6,15 +6,17 @@ from configparser import ConfigParser
 import cv2, math, os
 from PIL import Image, ImageDraw
 from tqdm import tqdm
-from utils.read_cfg import read_cfg
-from utils.fit_ellipse import *
+from read_cfg import read_cfg
+from fit_ellipse import *
 import random
-from utils.create_mask import texture_the_mask, color_the_mask
+from create_mask import texture_the_mask, color_the_mask
 from imutils import face_utils
 import requests
 from zipfile import ZipFile
 from tqdm import tqdm
 import bz2, shutil
+
+from os.path import join
 
 
 def download_dlib_model():
@@ -304,7 +306,7 @@ def mask_face(image, face_location, six_points, angle, args, type="surgical"):
     w = image.shape[0]
     h = image.shape[1]
     if not "empty" in type and not "inpaint" in type:
-        cfg = read_cfg(config_filename="masks/masks.cfg", mask_type=type, verbose=False)
+        cfg = read_cfg(config_filename=join(base_path, "masks/masks.cfg"), mask_type=type, verbose=False)
     else:
         if "left" in type:
             str = "surgical_blue_left"
@@ -312,7 +314,7 @@ def mask_face(image, face_location, six_points, angle, args, type="surgical"):
             str = "surgical_blue_right"
         else:
             str = "surgical_blue"
-        cfg = read_cfg(config_filename="masks/masks.cfg", mask_type=str, verbose=False)
+        cfg = read_cfg(config_filename=join(base_path, "masks/masks.cfg"), mask_type=str, verbose=False)
     img = cv2.imread(cfg.template, cv2.IMREAD_UNCHANGED)
 
     # Process the mask if necessary
@@ -568,9 +570,8 @@ def rect_to_bb(rect):
     return (x1, x2, y2, x1)
 
 
-def mask_image(image_path, args):
+def mask_image(image, args):
     # Read the image
-    image = cv2.imread(image_path)
     original_image = image.copy()
     # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     gray = image
@@ -634,7 +635,7 @@ def mask_image(image_path, args):
             mask = available_mask_types
             cc = 1
 
-    return masked_images, mask, mask_binary_array, original_image
+    return masked_images, mask, mask_binary_array
 
 
 def is_image(path):
@@ -651,7 +652,7 @@ def is_image(path):
         return False 
 
 
-def get_available_mask_types(config_filename="masks/masks.cfg"):
+def get_available_mask_types(config_filename=join(base_path, "masks/masks.cfg")):
     parser = ConfigParser()
     parser.optionxform = str
     parser.read(config_filename)
