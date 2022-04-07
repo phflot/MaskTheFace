@@ -19,4 +19,4 @@ class FaceMaskAugmentor:
     )
 
     def __call__(self, img):
-        return mask_image(img, args)
+        return mask_image(img, self.args)
