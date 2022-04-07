@@ -19,6 +19,9 @@ import bz2, shutil
 from os.path import join
 
 
+base_path = os.path.dirname(os.path.abspath(__file__))
+
+
 def download_dlib_model():
     print_orderly("Get dlib model", 60)
     dlib_model_link = "http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2"
