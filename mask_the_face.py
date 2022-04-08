@@ -34,7 +34,6 @@ class FaceMaskAugmentor:
         self.masks = {}
 
         for mask_type in mask_types:
-            print(join(base_path, "masks/masks.cfg"))
             cfg = read_cfg(join(base_path, "masks/masks.cfg"), mask_type)
             self.masks[mask_type] = cv2.imread(join(base_path, cfg.template), cv2.IMREAD_UNCHANGED)
 
