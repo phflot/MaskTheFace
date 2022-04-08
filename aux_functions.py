@@ -333,6 +333,7 @@ def mask_face(image, face_location, six_points, angle, args, type="surgical"):
         [cfg.mask_a, cfg.mask_b, cfg.mask_c, cfg.mask_f, cfg.mask_e, cfg.mask_d]
     )
     # Warp the mask
+    print(cfg.template)
     M, mask = cv2.findHomography(mask_line, six_points)
     dst_mask = cv2.warpPerspective(img, M, (h, w))
     dst_mask_points = cv2.perspectiveTransform(mask_line.reshape(-1, 1, 2), M)
