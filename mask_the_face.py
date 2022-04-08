@@ -63,13 +63,13 @@ class FaceMaskAugmentor:
             cfg = read_cfg(config_filename=join(base_path, "masks/masks.cfg"), mask_type=str, verbose=False)
         img = self.masks[cfg.name]
         # Process the mask if necessary
-        if args.pattern:
+        if self.args.pattern:
             # Apply pattern to mask
-            img = texture_the_mask(img, args.pattern, args.pattern_weight)
+            img = texture_the_mask(img, self.args.pattern, self.args.pattern_weight)
 
-        if args.color:
+        if self.args.color:
             # Apply color to mask
-            img = color_the_mask(img, args.color, args.color_weight)
+            img = color_the_mask(img, self.args.color, self.args.color_weight)
 
         mask_line = np.float32(
             [cfg.mask_a, cfg.mask_b, cfg.mask_c, cfg.mask_f, cfg.mask_e, cfg.mask_d]
