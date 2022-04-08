@@ -319,7 +319,12 @@ def mask_face(image, face_location, six_points, angle, args, type="surgical"):
             str = "surgical_blue"
         cfg = read_cfg(config_filename=join(base_path, "masks/masks.cfg"), mask_type=str, verbose=False)
     img = cv2.imread(cfg.template, cv2.IMREAD_UNCHANGED)
-
+    import matplotlib.pyplot as pyplot 
+    height, width = img.shape[:2]
+    plt.figure(figsize=(12, height / width * 12))
+    plt.imshow(img[..., ::-1])
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+    plt.axis('off')
     # Process the mask if necessary
     if args.pattern:
         # Apply pattern to mask
