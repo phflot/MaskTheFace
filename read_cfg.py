@@ -46,5 +46,5 @@ def read_cfg(config_filename="masks/masks.cfg", mask_type="surgical", verbose=Fa
         spaces = " " * (30 - len(name))
         if verbose:
             print(name + ":" + spaces + str(cfg[name]))
-
+    cfg["name"] = section_name
     return cfg
