@@ -18,7 +18,7 @@ mask_types = ["surgical", "surgical_left", "surgical_right", "surgical_green",
 
 class FaceMaskAugmentor:
     def __init__(self, mask_type="random", pattern="", pattern_weight=0.5, color="", color_weight=0.5, code="", verbose=False, pred_path="dlib_models/shape_predictor_68_face_landmarks.dat"):
-        download_dlib_model()
+        # download_dlib_model()
         self.args = argparse.Namespace(
             mask_type=mask_type,
             pattern=pattern,
@@ -34,8 +34,9 @@ class FaceMaskAugmentor:
         self.masks = {}
 
         for mask_type in mask_types:
+            print(join(base_path, "masks/masks.cfg"))
             cfg = read_cfg(join(base_path, "masks/masks.cfg"), mask_type)
-            self.masks[mask_type] = cv2.imread(cfg.template, cv2.IMREAD_UNCHANGED)
+            self.masks[mask_type] = cv2.imread(join(base_path, cfg.template), cv2.IMREAD_UNCHANGED)
 
 
     def _mask_face(self, image, face_location, six_points, angle, type="surgical"):
