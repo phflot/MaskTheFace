@@ -165,7 +165,7 @@ class FaceMaskAugmentor:
                 if len(masked_images) > 0:
                     image = masked_images.pop(0)
                 image, mask_binary = self._mask_face(
-                    image, face_location, six_points_on_face, angle, args, type=mask_type
+                    image, face_location, six_points_on_face, angle, type=mask_type
                 )
 
                 # compress to face tight
